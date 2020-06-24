@@ -10,8 +10,12 @@ const _ = require('underscore')
 // importando el modelo usuario
 const Usuario = require('../models/usuario')
 
+// importando el middleware 
+const { verificaToken, verificaAdminRole } = require('../middlewares/autenticacion')
+
 // obtener
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
+
 
     let desde = Number(req.query.desde || 0)
     let limite = Number(req.query.limite || 5)
@@ -27,7 +31,7 @@ app.get('/usuario', function(req, res) {
                 })
             }
 
-            Usuario.count({ estado: true }, (err, conteo) => {
+            Usuario.countDocuments({ estado: true }, (err, conteo) => {
                 if (err) {
                     return res.status(400).json({
                         ok: false,
@@ -45,7 +49,7 @@ app.get('/usuario', function(req, res) {
 })
 
 // Insertar
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdminRole], (req, res) => {
     let body = req.body
 
     let usuario = new Usuario({
@@ -75,7 +79,7 @@ app.post('/usuario', function(req, res) {
 })
 
 // Actualizar
-app.put('/usuario/:id', function(req, res) { // el /:id sirve para capturar la id ingresada por la url
+app.put('/usuario/:id', [verificaToken, verificaAdminRole], (req, res) => { // el /:id sirve para capturar la id ingresada por la url
     let id = req.params.id // captura el id ingresado por la url y la almacena en una variable
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado'])
 
@@ -96,7 +100,7 @@ app.put('/usuario/:id', function(req, res) { // el /:id sirve para capturar la i
 })
 
 // Eliminar
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRole], (req, res) => {
 
     let id = req.params.id
 
