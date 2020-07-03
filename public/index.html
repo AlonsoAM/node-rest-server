@@ -7,11 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Google Sign-In Demo</title>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id"
-        content="759254563475-kh1dmilklop059ufhmp9k3fb5sendsgn.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="759254563475-kh1dmilklop059ufhmp9k3fb5sendsgn.apps.googleusercontent.com">
 </head>
 
 <body>
+
+    <!-- <img src="http://localhost:3000/imagen/usuarios/5ef20ac41a42811851807ecf-443.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7InJvbGUiOiJBRE1JTl9ST0xFIiwiZXN0YWRvIjp0cnVlLCJnb29nbGUiOmZhbHNlLCJfaWQiOiI1ZWYyMGFjNDFhNDI4MTE4NTE4MDdlY2YiLCJub21icmUiOiJUZXN0MSIsImVtYWlsIjoidGVzdDFAbGl2ZS5jb20iLCJfX3YiOjB9LCJpYXQiOjE1OTM2MzU0NDAsImV4cCI6MTU5MzgwODI0MH0.jbizORcitKLovRpY13rAvZl7tbT8nTd80TdQAmVAbks"
+        alt=""> -->
 
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <a href="#" onclick="signOut();">Sign out</a>
@@ -30,7 +32,7 @@
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/google');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
+            xhr.onload = function() {
                 console.log('Signed in as: ' + xhr.responseText);
             };
             xhr.send('idtoken=' + id_token);
@@ -39,11 +41,10 @@
 
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
+            auth2.signOut().then(function() {
                 console.log('User signed out.');
             });
         }
-
     </script>
 
 </body>
